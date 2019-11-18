@@ -13,8 +13,6 @@ public class SmallerEnemy extends Enemy {
         super();
         setFirst_Blood(blood_first);
         loadImage(SmallEnemy_Image);
-        //setPosition(); //set position for object
-        //setFirstBlood for object
     }
 
     @Override

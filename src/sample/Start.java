@@ -19,7 +19,8 @@ import javafx.scene.effect.DropShadow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class Start {
+public class Start
+{
 
     private int width = 1200, height = 720;
     private static final Font FONT = Font.font("", FontWeight.BOLD, 18);
@@ -27,20 +28,23 @@ public class Start {
     private MenuBox menu;
     private GameStage gameStage = new GameStage();
 
-    public Start() throws FileNotFoundException, InterruptedException {
+    public Start() throws FileNotFoundException, InterruptedException
+    {
     }
 
-    private Scene createGame() throws FileNotFoundException, InterruptedException {
+    private Scene createGame() throws FileNotFoundException, InterruptedException
+    {
         return gameStage.getMainScene();
     }
-    private Scene createCredit() {
-
+    private Scene createCredit()
+    {
         StackPane root = new StackPane();
         root.setPrefSize(width,height);
         Rectangle bg = new Rectangle(width,height);
         bg.setOpacity(0.6);
         try (InputStream is = Files.newInputStream(Paths.get("src/Image/MenuGame.jpg"));
-             InputStream fontStream = Files.newInputStream(Paths.get("src/Image/VnArialH-Bold.TTF"))) {
+             InputStream fontStream = Files.newInputStream(Paths.get("src/Image/VnArialH-Bold.TTF")))
+        {
             ImageView img = new ImageView(new Image(is));
             img.setFitWidth(width);
             img.setFitHeight(height);
@@ -48,7 +52,9 @@ public class Start {
             root.getChildren().add(img);
 
             font = Font.loadFont(fontStream, 30);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.out.println("ngoai le duoc bat la khong the loa anh hoac phong chu");
         }
         Text credit = new Text("BT-OOP-Nhóm: \n" +
@@ -65,7 +71,8 @@ public class Start {
     }
 
 
-    public Stage createContent() throws FileNotFoundException, InterruptedException {
+    public Stage createContent() throws FileNotFoundException, InterruptedException
+    {
         Stage createContent = new Stage();
         Scene Thong_tin_Scene = createCredit();
         Scene gameScene = createGame();
@@ -81,7 +88,9 @@ public class Start {
             root.getChildren().add(img);
 
             font = Font.loadFont(fontStream, 30);
-        } catch (IOException e) {
+        } 
+        catch (IOException e)
+        {
             System.out.println("ngoai le duoc bat la khong the loa anh hoac phong chu");
         }
         Stage startStage = new Stage();

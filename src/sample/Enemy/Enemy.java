@@ -15,40 +15,55 @@ import sample.Tower;
 import  sample.NormalEnemy;
 import sample.SniperTower;
 
-enum Direction{
+
+/* Khai báo enum */
+enum Direction
+{
     LEFT(180), RIGHT(0), UP(270), DOWN(90);
     int direction;
-     Direction(int i){
+    Direction(int i)
+    {
         this.direction = i;
     }
-    public int getDirection() {
+    public int getDirection()
+    {
         return direction;
     }
 }
-public abstract class Enemy extends GameEntity {
-    protected int speed ;
-    protected int Blood;
-    protected int armor;
-    private List<Enemy> normalEnemies = new ArrayList<>();
-    static final int angle_Right = 0;
-    static final int angle_Left = 180;
+
+public abstract class Enemy extends GameEntity
+{
+    protected int speed;        // Tốc độ di chuyển
+    protected int Blood;        // Trị số máu
+    protected int armor;        // Trị số giáp
+    private List<Enemy> normalEnemies = new ArrayList<>(); // Danh sách quái
+    static final int angle_Right = 0;       // Tưởng tượng theo đường tròn chiều kim đồng hồ
+    static final int angle_Left = 180;      // Các hướng tương ứng sẽ có góc như khai báo bên
     static final int angle_Up =  90 ;
     static final int angle_Down = 270;
-    protected Point point;
-    protected List<Point> roadList = new ArrayList<>();
-    protected int angle = 0;
-    protected  int i ;
-    protected int dri ;
+    protected Point point;                  // Đối tượng 2 tham số x, y mô tả tọa độ trên bản đồ, dùng trong việc tạo đường đi        
+    protected List<Point> roadList = new ArrayList<>(); // Danh sách các point
+    protected int angle = 0;                            // góc đi
+    protected  int i;                                   // biến dùng trong vòng lặp
+    protected int dri;                                  // hướng đi
+
+
+    /* Thêm quái vào danh sách */
     public void adds(Enemy normalEnemy)
     {
         normalEnemies.add(normalEnemy);
     }
+
+    /* Tạo đường đi */
     public void loadRoad(List<Point> pointList)
     {
         roadList.addAll(pointList);
     }
-    public void Move() {
-        /***** To do handle move of Enemy*******/
+
+    /* tạo hiệu ứng di chuyển */
+    public void Move()
+    {
+        /***** Xử lý hướng đi của quái theo dạng trục Oxy *******/
         switch (getDri())
         {
             case angle_Right:
@@ -64,22 +79,19 @@ public abstract class Enemy extends GameEntity {
                 this.y_pos -= speed;
                 break;
         }
+
+        /* Thao tác kiểm tra xem quái đã đi hết đường hay chưa */
+        /* Kiểm tra vị trí tiếp theo và vị trí hiện tại, nếu ko lệch thì tức là đã đến cuối đường */
         int delta_x = this.roadList.get(i + 1).getX() - this.x_pos;
         int delta_y = this.roadList.get(i + 1).getY() - this.y_pos;
         if(delta_x == 0 && delta_y == 0 && i < roadList.size())
         {
-//            System.out.println(i++);
             i ++;
         }
-//        if(this.x_pos > 1200) {
-//            i = 0;
-//            setPosition(this.roadList.get(0).getX(), this.roadList.get(0).getY());
-//            setDri(angle_Right);
-//        }
+        /* Xử lý tai lối rẽ, khi gặp rẽ thì xoay vuông góc */
         if(this.dri != nextRoad())
         {
             this.dri = nextRoad();
-//            angle += 90;
             SnapshotParameters snapshotParameters = new SnapshotParameters();
             snapshotParameters.setFill(Color.TRANSPARENT);
             ImageView imageView = new ImageView(this.image);
@@ -87,14 +99,18 @@ public abstract class Enemy extends GameEntity {
             this.image = imageView.snapshot(snapshotParameters, null);
         }
     }
+
+
+    /* Tìm hướng đi kế tiếp là rẽ trái phải hay trên dưới */
+    /* Hướng nhìn trên màn hình của người chơi bị ngược so với sự di chuyển thực tế của quái nên nextRoad được định nghĩa như bên dưới
+       xem lại khai báo enum để hiểu rõ
+    */
     public int nextRoad()
     {
-        int delta_x =this.roadList.get(i + 1).getX() - this.roadList.get(i).getX();
+        int delta_x = this.roadList.get(i + 1).getX() - this.roadList.get(i).getX();
         int delta_y = this.roadList.get(i + 1).getY() - this.roadList.get(i).getY();
         if(delta_x == 0 && delta_y > 0)
         {
-            //System.out.println(x_pos + " " + y_pos);
-            //System.out.println("DOWN");
             return angle_Down;
         }
         if(delta_x == 0 && delta_y < 0)
@@ -111,79 +127,112 @@ public abstract class Enemy extends GameEntity {
         }
         return  0;
     }
+
+    /* Trả về vị trí của quái, do từ khi gọi hàm tới lúc trả về có thời gian chênh lệch,
+       quái vẫn di chuyển nên + thêm một lượng để ước lượng vị trí hiện tại của quái */
     public Point getPosition()
     {
         point = new Point(x_pos + 5, y_pos + 10);
         return point;
     }
+
+    /* Vẽ quái ra màn hình và tạo hiệu ứng */
     public void RenderList(GraphicsContext gc)
     {
         for (int i = 0; i < normalEnemies.size(); i ++)
         {
+            /* Nếu quái bị bắn chết, xóa nó khỏi danh sách */
             if(normalEnemies.get(i).is_dead()) normalEnemies.remove(i);
-            else {
+            /* Nếu không, in nó ra màn hình */
+            else
+            {
                 normalEnemies.get(i).Render(gc);
             }
         }
     }
-    public void setArmor(int armor) {
-        this.armor = armor;
-    }
 
-    public int getArmor() {
-        return armor;
-    }
 
-    public int getBlood() {
-        return Blood;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public void setFirst_Blood(int first_Blood) {
-        Blood = first_Blood;
-    }
+    /* Khi bị bắn trúng, quái bị trừ máu */
     public void bleed(int blood_delta)
     {
         this.Blood -= blood_delta;
     }
+
+    /* Khi quái bị bắn chết hoặc đi hết đường đi thì đều coi là nó đã chết để tiện xử lý */
     public boolean is_dead()
     {
         return  (this.Blood <= 0  ||  this.x_pos > 1200);
     }
 
     @Override
-    public void loadImage(String path) {
+    public void loadImage(String path)
+    {
         this.image = new Image(path + ".png", 50, 50, true, true);
     }
-    public int getDri() {
+
+    public int getDri()
+    {
         return dri;
     }
-    public void setDri(int dri) {
+    
+    public void setDri(int dri)
+    {
         this.dri = dri;
     }
+
     public Enemy get(int index)
     {
         return normalEnemies.get(index);
     }
+
     public int size()
     {
         return normalEnemies.size();
     }
 
-    public void getRoadList() {
+    public void getRoadList()
+    {
         for(Point p : roadList)
         {
-//            System.out.println(p.getX() + " " + p.getY());
         }
     }
-    public List<Enemy> getListEnemy() {
+
+    public List<Enemy> getListEnemy()
+    {
         return normalEnemies;
     }
+
+
+    /* Setter và Getter */
+    public void setArmor(int armor)
+    {
+        this.armor = armor;
+    }
+
+    public int getArmor()
+    {
+        return armor;
+    }
+
+    public int getBlood()
+    {
+        return Blood;
+    }
+
+    public int getSpeed()
+    {
+        return speed;
+    }
+
+    public void setSpeed(int speed)
+    {
+        this.speed = speed;
+    }
+
+    public void setFirst_Blood(int first_Blood)
+    {
+        Blood = first_Blood;
+    }
+
+
 }

@@ -13,23 +13,25 @@ import sample.Tower;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SniperTower extends Tower {
-    private final Image image_NormalTower = new Image("file:src/Image/Tower.png",
-            60 , 60, true, true);
-    private int newDame;
-    private int newRange;
-    private int newCost;
+public class SniperTower extends Tower
+{
+    private final Image image_NormalTower = new Image("file:src/Image/Tower.png", 60 , 60, true, true); // Tải và set kích thước mặc định cho ảnh tháp
+    private int newDame;    // Sát thương
+    private int newRange;   // Tầm bắn
+    private int newCost;    // Giá
     private final static int SCREEN_TITLEMAP = 30;
-    private final int Range_Sniper = 250;
-    List<Tower> towerList = new ArrayList<>(); //ds tháp được đặt
-    
+    private final int Range_Sniper = 250; // tầm bắn mặc định của tháp dạng sniper
+    List<Tower> towerList = new ArrayList<>(); // danh sách các tháp được đặt
     ImageView iv;
 
-    public SniperTower() {
+    
+    /* Constructor dạng kế thừa */
+    public SniperTower()
+    {
         super();
-
     }
 
+    /* Constructor */
     public SniperTower(double x_pos, double y_pos) {
         super(x_pos, y_pos);
         this.dame = newDame;

@@ -19,19 +19,25 @@ import sample.Tower.*;
 import  sample.NormalEnemy;
 import sample.SniperTower;
 
-public abstract class HBoxTower {
-    private final static int SCREEN_TITLEMAP = 30;
-    protected HBox Hbox_Tower = new HBox();
+
+/* Hộp chọn tháp */
+public abstract class HBoxTower
+{
+    private final static int SCREEN_TITLEMAP = 30;  // Định dạng kích thước ô trong bản đồ 
+    protected HBox Hbox_Tower = new HBox();     
     protected  ImageView imageView_Hbox = new ImageView();
     protected Image image_Hbox;
     protected int x_pos;
     protected int y_pos;
     protected Tower tower;
-    private final int BoxTower_WIDTH = 30;
-    private final int BoxTower_HEIGHT =  60;
-    protected boolean isPut;
-    protected boolean isDrag;
-    protected boolean canPut;
+    private final int BoxTower_WIDTH = 30;          // tháp rộng 1 ô
+    private final int BoxTower_HEIGHT =  60;        // cao 2 ô
+    protected boolean isPut;                        // kiểm tra 1 vị trí trên bản đồ đã có tháp đặt chưa, nếu đã có thì thao tác đặt mới bị hủy bỏ
+    protected boolean isDrag;                       // Biến logic kiểm tra việc ô hiển thị tháp có được kéo ko (việc đặt tháp là kéo và thả tại vị trí mong muốn)
+    protected boolean canPut;                       // kiểm tra tính hợp lệ của việc đặt tháp. Tháp được phép đặt tại vị trí cỏ, ko được đặt ở gạch viền và đường đi
+    
+
+    /* Constructor */
     public HBoxTower()
     {
         Hbox_Tower.setPrefWidth(BoxTower_WIDTH);
@@ -44,11 +50,16 @@ public abstract class HBoxTower {
         isDrag = false;
         canPut = false;
     }
-    void insertImage(){
+
+
+    /* Tải ảnh */
+    void insertImage()
+    {
         this.setupGestureSource();
         Hbox_Tower.getChildren().add(imageView_Hbox);
     }
 
+    /* Setter */
     public void setX_pos(int x_pos) {
         this.x_pos = x_pos;
     }
@@ -60,82 +71,101 @@ public abstract class HBoxTower {
         this.setX_pos(x_pos);
         this.setY_pos(y_pos);
     }
-    public void setupGestureSource(){// Xu ly phan click chuot
 
-        imageView_Hbox.setOnDragDetected(new EventHandler<MouseEvent>() {
+    /* Xử lý sự kiện trên chuột */
+    public void setupGestureSource()
+    {
+
+        imageView_Hbox.setOnDragDetected(new EventHandler<MouseEvent>()
+        {
             @Override
-            public void handle(MouseEvent event) {
-//                System.out.println("DRAG DETECTED");
-                /* allow any transfer mode */
+            public void handle(MouseEvent event)
+            {
+                /* Đặt ảnh tại vị trí bảng kéo thả */
                 Dragboard db = imageView_Hbox.startDragAndDrop(TransferMode.MOVE);
-
-                /* put a image on dragboard */
                 ClipboardContent content = new ClipboardContent();
-
                 Image sourceImage = imageView_Hbox.getImage();
                 content.putImage(sourceImage);
                 db.setContent(content);
                 event.consume();
             }
         });
-        imageView_Hbox.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        imageView_Hbox.setOnMouseEntered(new EventHandler<MouseEvent>()
+        {
             @Override
-            public void handle(MouseEvent e) {
-//                System.out.println("MOUSE ENTERED");
+            public void handle(MouseEvent e)
+            {
                 imageView_Hbox.setCursor(Cursor.HAND);
-//                    System.out.println("e...: "+e.getSceneX());
-
             }
         });
     }
-    public void setupGestureTarget(Scene scene, int[][] MapTitle){ // Xu li phan keo tha
-        //ImageView target = new ImageView(i);
-        scene.setOnDragOver(new EventHandler <DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                //System.out.println("DRAG OVER");
-                Dragboard db = event.getDragboard();
 
-                if(db.hasImage()){
+
+    /* Xử lý việc kéo thả */
+    public void setupGestureTarget(Scene scene, int[][] MapTitle)
+    { 
+        scene.setOnDragOver(new EventHandler <DragEvent>()
+        {
+            @Override
+            public void handle(DragEvent event)
+            {
+                /* Nếu xảy ra sự kiện kéo */
+                Dragboard db = event.getDragboard();
+                if(db.hasImage())
+                {
                     event.acceptTransferModes(TransferMode.MOVE);
+                    /* Xác định tọa độ được thả */
                     setPosition((int)event.getX() , (int) event.getY() );
+                    /* chia tỉ lệ để lấy vị trí trên bản đồ game */
                     int x_tiles = (int) event.getSceneX() / SCREEN_TITLEMAP;
                     int y_tiles = (int) event.getSceneY() / SCREEN_TITLEMAP;
+                    /* Nếu vị trí đặt là cỏ, ngay dưới nó cx là cỏ thì có thể đặt được */
                     if (MapTitle[y_tiles][x_tiles] == 1 && MapTitle[y_tiles+1][x_tiles] == 1)
                     {
                         canPut = true;
                     }
-                    else canPut = false;
-                    isDrag = true;
+                    else
+                    {
+                        canPut = false;
+                        isDrag = true;
+                    }
                 }
                 event.consume();
 
             }
         });
-        scene.setOnDragDropped(new EventHandler <DragEvent>(){
+        scene.setOnDragDropped(new EventHandler <DragEvent>()
+        {
             @Override
-            public void handle(DragEvent event) {
-//                System.out.println("DRAG DROPPED");
+            public void handle(DragEvent event)
+            {
                 Dragboard db = event.getDragboard();
-                if(db.hasImage()){
-                    //imageView_Hbox.setImage(db.getImage());
+                if(db.hasImage())
+                {
                     int x_tiles = (int) event.getSceneX() / SCREEN_TITLEMAP;
                     int y_tiles = (int) event.getSceneY() / SCREEN_TITLEMAP;
 
-                    if (MapTitle[y_tiles][x_tiles] == 1 && MapTitle[y_tiles+1][x_tiles] == 1) {
-//                        System.out.println("event : "+event.getSceneX() +", " + event.getSceneY());
+                    if (MapTitle[y_tiles][x_tiles] == 1 && MapTitle[y_tiles+1][x_tiles] == 1)
+                    {
+                        /* nếu hợp lệ, dựng cờ đánh dấu vị trí đặt tháp lên */
                         MapTitle[y_tiles][x_tiles] = 0;
                         MapTitle[y_tiles+1][x_tiles] = 0;
-                        tower.setX_pos((x_tiles) *SCREEN_TITLEMAP);
+                        tower.setX_pos((x_tiles) * SCREEN_TITLEMAP);
                         tower.setY_pos((y_tiles) * SCREEN_TITLEMAP);
                         isPut = true;
                         isDrag = false;
                         canPut = false;
-                    }else {
+                    }
+                    else
+                    {
+                        /* không thỏa điều kiện đặt tháp, không cho phép đặt */
+
                         isPut = false;
                         isDrag = false;
                     }
-                }else{
+                }
+                else
+                {
                     event.setDropCompleted(false);
                 }
                 event.consume();
@@ -143,19 +173,23 @@ public abstract class HBoxTower {
         });
     }
 
-    public Tower getTower() {
+    public Tower getTower()
+    {
         return tower;
     }
 
-    public boolean isPut() {
+    public boolean isPut()
+    {
         return isPut;
     }
 
-    public void setPut(boolean put) {
+    public void setPut(boolean put)
+    {
         isPut = put;
     }
 
-    public HBox getHbox_Tower() {
+    public HBox getHbox_Tower()
+    {
         return Hbox_Tower;
     }
 

@@ -16,7 +16,7 @@ import  sample.NormalEnemy;
 import sample.SniperTower;
 
 
-/* Khai báo enum 
+/* Khai báo enum */
 enum Direction
 {
     LEFT(180), RIGHT(0), UP(270), DOWN(90);
@@ -30,7 +30,7 @@ enum Direction
         return direction;
     }
 }
-*/
+
 public abstract class Enemy extends GameEntity
 {
     protected int speed;        // Tốc độ di chuyển
@@ -39,8 +39,8 @@ public abstract class Enemy extends GameEntity
     private List<Enemy> normalEnemies = new ArrayList<>(); // Danh sách quái
     static final int angle_Right = 0;       // Tưởng tượng theo đường tròn chiều kim đồng hồ
     static final int angle_Left = 180;      // Các hướng tương ứng sẽ có góc như khai báo bên
-    static final int angle_Up =  90;
-    static final int angle_Down = 270;
+    static final int angle_Up =  270;
+    static final int angle_Down = 90;
     protected Point point;                  // Đối tượng 2 tham số x, y mô tả tọa độ trên bản đồ, dùng trong việc tạo đường đi        
     protected List<Point> roadList = new ArrayList<>(); // Danh sách các point
     protected int angle = 0;                            // góc đi
@@ -82,7 +82,7 @@ public abstract class Enemy extends GameEntity
 
         /* Thao tác kiểm tra xem quái đã đi hết đường hay chưa */
         /* Kiểm tra vị trí tiếp theo và vị trí hiện tại, nếu ko lệch thì tức là đã đến cuối đường */
-        int delta_x = this.roadList.get(i + 1).getX() - this.x_pos;
+        int delta_x = this.roadList.get(i + 1).getX() - this.x_pos;   // Đến cuối đường =0 vì không thể di chuyển
         int delta_y = this.roadList.get(i + 1).getY() - this.y_pos;
         if(delta_x == 0 && delta_y == 0 && i < roadList.size())
         {

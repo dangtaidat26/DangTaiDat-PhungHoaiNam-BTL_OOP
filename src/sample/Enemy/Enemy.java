@@ -39,7 +39,7 @@ public abstract class Enemy extends GameEntity
     private List<Enemy> normalEnemies = new ArrayList<>(); // Danh sách quái
     static final int angle_Right = 0;       // Tưởng tượng theo đường tròn chiều kim đồng hồ
     static final int angle_Left = 180;      // Các hướng tương ứng sẽ có góc như khai báo bên
-    static final int angle_Up =  90 ;
+    static final int angle_Up =  90;
     static final int angle_Down = 270;
     protected Point point;                  // Đối tượng 2 tham số x, y mô tả tọa độ trên bản đồ, dùng trong việc tạo đường đi        
     protected List<Point> roadList = new ArrayList<>(); // Danh sách các point

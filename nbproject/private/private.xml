@@ -3,9 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Admin/Desktop/BTL_OOP/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Point.java</file>
-            <file>file:/C:/Users/Admin/Desktop/BTL_OOP/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Start.java</file>
-            <file>file:/C:/Users/Admin/Desktop/BTL_OOP/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Main.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Bullet.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/GameTile.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Start.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Tower/SniperTower.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Hbox_SniperTower.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Enemy/Enemy.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/HBoxTower.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Point.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/GameEntity.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Main.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/GameStage.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/SmallerEnemy.java</file>
+            <file>file:/C:/GitHub/DangTaiDat-PhungHoaiNam-BTL_OOP/src/sample/Enemy/NormalEnemy.java</file>
         </group>
     </open-files>
 </project-private>

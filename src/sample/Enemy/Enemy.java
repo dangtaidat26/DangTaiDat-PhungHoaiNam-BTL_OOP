@@ -16,7 +16,7 @@ import  sample.NormalEnemy;
 import sample.SniperTower;
 
 
-/* Khai báo enum */
+/* Khai báo enum 
 enum Direction
 {
     LEFT(180), RIGHT(0), UP(270), DOWN(90);
@@ -30,7 +30,7 @@ enum Direction
         return direction;
     }
 }
-
+*/
 public abstract class Enemy extends GameEntity
 {
     protected int speed;        // Tốc độ di chuyển

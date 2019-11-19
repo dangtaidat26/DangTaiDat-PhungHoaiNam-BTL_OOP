@@ -52,9 +52,9 @@ public class NormalEnemy extends Enemy
     public void Render(GraphicsContext gc) {
         Move();
         gc.drawImage(image,this.x_pos, this.y_pos, 50, 50);
-        gc.setFill(Color.GRAY);
+        gc.setFill(Color.BLACK);
         gc.fillRect(x_pos + image.getWidth()/4 , y_pos - 3, image.getWidth()/2, 2);
-        gc.setFill(Color.RED);
+        gc.setFill(Color.BLUE);       // set mầu máu của quái
         gc.fillRect(x_pos + image.getWidth()/4 , y_pos - 3, image.getWidth()/2 * getBlood()/blood_first, 2);
     }
 }
